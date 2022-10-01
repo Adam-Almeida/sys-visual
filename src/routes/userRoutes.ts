@@ -1,6 +1,9 @@
+import {CreateUserController} from '@/modules/users/useCases/createUser/CreateUserController'
 import { Request, Response, Router } from 'express'
 
 const userRoutes = Router()
+
+const createUserController = new CreateUserController()
 
 //list all users
 userRoutes.get('/user', (req: Request, res: Response) => {
@@ -18,9 +21,7 @@ userRoutes.get('/user/:id', (req: Request, res: Response) => {
 })
 
 //create user
-userRoutes.post('/user', (req: Request, res: Response) => {
-  res.json({ users: true })
-})
+userRoutes.post('/user', createUserController.handle)
 
 //update user
 userRoutes.patch('/user/:id', (req: Request, res: Response) => {

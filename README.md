@@ -1,2 +1,0 @@
-## ROTAS DE USUÁRIO
-/user
