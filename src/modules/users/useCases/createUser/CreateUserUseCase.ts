@@ -11,8 +11,8 @@ export class CreateUserUseCase {
   async execute({ username, password, email }: ICreateUser) {
     const userExists = await prisma.user.findFirst({
       where: {
-        username: {
-          equals: username,
+        email: {
+          equals: email,
           mode: 'insensitive',
         },
       },

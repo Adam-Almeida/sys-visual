@@ -6,20 +6,14 @@ export class CreateUserController {
     const { username, email, password } = req.body
     const createUserUseCase = new CreateUserUseCase()
 
-    try {
-      const result = await createUserUseCase.execute({
-        username,
-        email,
-        password,
-      })
+    const result = await createUserUseCase.execute({
+      username,
+      email,
+      password,
+    })
 
-      return res
-        .status(201)
-        .json({ message: 'Cadastro realizado com sucesso', data: result })
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: 'Erro ao realizar o cadastro', data: error })
-    }
+    return res
+      .status(201)
+      .json({ message: 'Cadastro realizado com sucesso', data: result })
   }
 }
