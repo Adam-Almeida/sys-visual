@@ -1,4 +1,5 @@
 import { prisma } from '@/database/prismaClient'
+import { BadRequestError } from '@/errors/ApiErrors'
 import { hash } from 'bcrypt'
 
 interface ICreateUser {
@@ -19,7 +20,7 @@ export class CreateUserUseCase {
     })
 
     if (userExists) {
-      throw new Error('Usuário já cadastrado no sistema.')
+      throw new BadRequestError('Usuário já cadastrado para este email.')
     }
 
     const hashPassword = await hash(password, 10)

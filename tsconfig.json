@@ -18,6 +18,10 @@
     "sourceMap": true,
     "lib": [
       "esnext"
+    ],
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
     ]
   }
 }

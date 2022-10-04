@@ -10,5 +10,5 @@ export const ErrorsCaptureMiddleware = (
   const statusCode = error.statusCode ?? 500
   const message = error.statusCode ? error.message : 'Internal server error'
   res.status(statusCode).json({ message })
-  return next
+  return next()
 }
