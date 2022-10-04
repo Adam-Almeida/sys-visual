@@ -1,4 +1,4 @@
-import ApiErrors from '@/errors/ApiErrors'
+import { ApiErrors } from '@/errors/ApiErrors'
 import { Request, Response, NextFunction } from 'express'
 
 export const ErrorsCaptureMiddleware = (
@@ -8,6 +8,7 @@ export const ErrorsCaptureMiddleware = (
   next: NextFunction
 ) => {
   const statusCode = error.statusCode ?? 500
-  res.status(statusCode).json({ message: error.message })
+  const message = error.statusCode ? error.message : 'Internal server error'
+  res.status(statusCode).json({ message })
   return next
 }

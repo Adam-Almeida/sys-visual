@@ -1,4 +1,5 @@
 import { prisma } from '@/database/prismaClient'
+import { BadRequestError } from '@/errors/ApiErrors'
 import { compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -19,13 +20,13 @@ export class AuthenticateUserUseCase {
     })
 
     if (!userAuth) {
-      throw new Error('Usuário ou senha inválidos.')
+      throw new BadRequestError('Usuário ou senha inválidos.')
     }
 
     const auth = await compare(password, userAuth.password)
 
     if (!auth) {
-      throw new Error('Usuário ou senha inválidos.')
+      throw new BadRequestError('Usuário ou senha inválidos.')
     }
 
     const token = jwt.sign(
