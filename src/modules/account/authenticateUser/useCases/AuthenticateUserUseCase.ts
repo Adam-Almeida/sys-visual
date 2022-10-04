@@ -8,8 +8,8 @@ interface IAuthenticateUser {
 }
 
 export class AuthenticateUserUseCase {
-  async execute({ email, password }: IAuthenticateUser) {
-    const user = await prisma.user.findFirst({
+  async execute({ password, email }: IAuthenticateUser) {
+    const userAuth = await prisma.user.findFirst({
       where: {
         email: {
           equals: email,
@@ -18,21 +18,21 @@ export class AuthenticateUserUseCase {
       },
     })
 
-    if (!user) {
-      throw new Error('Login ou senha estão incorretos')
+    if (!userAuth) {
+      throw new Error('Usuário ou senha inválidos.')
     }
 
-    const auth = await compare(password, user.password)
+    const auth = await compare(password, userAuth.password)
 
     if (!auth) {
-      throw new Error('Login ou senha estão incorretos')
+      throw new Error('Usuário ou senha inválidos.')
     }
 
     const token = jwt.sign(
       { email },
       '20ccdc4c8aa3e60eff889d646105d7d640a9e2a8',
       {
-        subject: user.id,
+        subject: userAuth.id,
         expiresIn: '1d',
       }
     )

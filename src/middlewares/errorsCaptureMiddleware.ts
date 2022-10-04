@@ -1,18 +1,13 @@
-import { Request, Response } from 'express'
+import ApiErrors from '@/errors/ApiErrors'
+import { Request, Response, NextFunction } from 'express'
 
-export async function ErrorsCaptureMiddleware(
-  err: Error,
-  request: Request,
-  response: Response
-) {
-  if (err instanceof Error) {
-    return response.status(422).json({
-      message: err.message,
-    })
-  }
-
-  return response.status(500).json({
-    status: 'error',
-    message: 'Internal Server Error.',
-  })
+export const ErrorsCaptureMiddleware = (
+  error: Error & Partial<ApiErrors>,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const statusCode = error.statusCode ?? 500
+  res.status(statusCode).json({ message: error.message })
+  return next
 }
