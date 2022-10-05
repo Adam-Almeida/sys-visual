@@ -1,3 +1,4 @@
+import { authUserToken } from '@/middlewares/authUserToken'
 import {CreateUserController} from '@/modules/users/useCases/createUser/CreateUserController'
 import { Request, Response, Router } from 'express'
 
@@ -21,7 +22,7 @@ userRoutes.get('/user/:id', (req: Request, res: Response) => {
 })
 
 //create user
-userRoutes.post('/user', createUserController.handle)
+userRoutes.post('/user', authUserToken, createUserController.handle)
 
 //update user
 userRoutes.patch('/user/:id', (req: Request, res: Response) => {

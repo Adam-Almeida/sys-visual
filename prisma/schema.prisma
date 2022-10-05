@@ -16,12 +16,12 @@ model User {
   password    String      
   email       String      @unique
   lastAcess   DateTime    @default(now())
-  type        Role        @default(CLIENT)
+  roleType    Role        
   @@map("user")
 }
 
 enum Role {
-  USER               //FUNCIONÁRIOS DE PRODUÇÃO
+  USER              //FUNCIONÁRIOS DE PRODUÇÃO
   ADMIN              //SUPER ADMIN
   CLIENT             //CLIENTES
 }

@@ -6,10 +6,17 @@ interface ICreateUser {
   username: string
   password: string
   email: string
+  roleType?: Role | any
+}
+
+type Role = {
+  ADMIN: string
+  USER: string
+  CLIENT: string
 }
 
 export class CreateUserUseCase {
-  async execute({ username, password, email }: ICreateUser) {
+  async execute({ username, password, email, roleType }: ICreateUser) {
     const userExists = await prisma.user.findFirst({
       where: {
         email: {
@@ -30,13 +37,14 @@ export class CreateUserUseCase {
         username,
         password: hashPassword,
         email,
+        roleType: !roleType ? 'CLIENT' : roleType,
       },
       select: {
         id: true,
         username: true,
         email: true,
         lastAcess: true,
-        type: true,
+        roleType: true,
       },
     })
     return user
