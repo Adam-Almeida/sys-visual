@@ -10,7 +10,7 @@ const createUserController = new CreateUserController()
 const listAllUsersController = new ListAllUsersController()
 
 //list all users
-userRoutes.get('/user', authUserToken, listAllUsersController.handle)
+userRoutes.get('/user/:limit', authUserToken, listAllUsersController.handle)
 
 //get user by id
 userRoutes.get('/user/:id', (req: Request, res: Response) => {
