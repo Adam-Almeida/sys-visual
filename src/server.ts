@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(authenticateRoutes)
 app.use(userRoutes)
 
-app.get('/ping', UserValidatorRegister.register, (req: Request, res: Response) => {
+app.get('/ping', (req: Request, res: Response) => {
   const { user_id } = req
 
   res.json({ pong: true, user_id })

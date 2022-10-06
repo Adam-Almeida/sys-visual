@@ -22,11 +22,21 @@ export const UserValidatorRegister = {
     },
     password: {
       notEmpty: {
-        errorMessage: 'O password não pode estar em branco.',
+        errorMessage: 'A senha não pode estar em branco.',
       },
       isLength: {
         options: { min: 8, max: 25 },
-        errorMessage: 'O password precisa ter entre 8 e 25 caracteres.',
+        errorMessage: 'A senha precisa ter entre 8 e 25 caracteres.',
+      },
+    },
+    confirmPassword: {
+      notEmpty: {
+        errorMessage: 'A confirmação de senha não pode estar em branco.',
+      },
+      isLength: {
+        options: { min: 8, max: 25 },
+        errorMessage:
+          'A confirmação de senha precisa ter entre 8 e 25 caracteres.',
       },
     },
     roleType: {

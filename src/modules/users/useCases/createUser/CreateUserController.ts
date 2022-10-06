@@ -11,7 +11,14 @@ export class CreateUserController {
     }
     const data = matchedData(req)
 
-    const { username, email, password, roleType } = data
+    const { username, email, password, confirmPassword, roleType } = data
+
+    if (password !== confirmPassword) {
+      throw new BadRequestError(
+        'A senha e a confirmação de senha devem ser iguais.'
+      )
+    }
+
     const createUserUseCase = new CreateUserUseCase()
 
     const result = await createUserUseCase.execute({
