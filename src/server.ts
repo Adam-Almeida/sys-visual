@@ -19,7 +19,7 @@ app.use(userRoutes)
 app.get('/ping', (req: Request, res: Response) => {
   const { user_id } = req
 
-  res.json({ pong: true, user_id )
+  res.json({ pong: true, user_id })
 })
 
 app.use(ErrorsCaptureMiddleware)

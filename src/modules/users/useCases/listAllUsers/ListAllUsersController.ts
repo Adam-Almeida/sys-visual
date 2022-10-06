@@ -7,7 +7,7 @@ interface IRequest {
 
 export class ListAllUsersController {
   async handle(req: Request, res: Response) {
-    const { limit }: IRequest = req.params
+    const { limit }: IRequest = req.query
 
     const listAllUsersUseCase = new ListAllUsersUseCase()
     const users = await listAllUsersUseCase.execute(limit)
