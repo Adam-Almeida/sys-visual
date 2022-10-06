@@ -2,6 +2,7 @@ import { adminUserToken } from '@/middlewares/adminUserToken'
 import { authUserToken } from '@/middlewares/authUserToken'
 import { CreateUserController } from '@/modules/users/useCases/createUser/CreateUserController'
 import { ListAllUsersController } from '@/modules/users/useCases/listAllUsers/ListAllUsersController'
+import { UserValidatorRegister } from '@/validators/UserValidatorRegister'
 import { Request, Response, Router } from 'express'
 
 const userRoutes = Router()
@@ -27,6 +28,7 @@ userRoutes.post(
   '/user',
   authUserToken,
   adminUserToken,
+  UserValidatorRegister.register,
   createUserController.handle
 )
 
