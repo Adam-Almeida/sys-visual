@@ -1,13 +1,13 @@
 /*
   Middleware de validação do nivel de acesso
-  nivel de acesso: SUPERADMIN DO SISTEMA
+  nivel de acesso:  USUÁRIO DA EMPRESA E ADMIN DO SISTEMA
 */
 
 import { UnauthorizedError } from '@/errors/ApiErrors'
 import { prisma } from '@/database/prismaClient'
 import { NextFunction, Request, Response } from 'express'
 
-export async function adminUserToken(
+export async function userAndAdminUserToken(
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,7 +21,9 @@ export async function adminUserToken(
     },
   })
 
-  if (!user || user.roleType !== 'ADMIN') {
+  const role = ['ADMIN', 'USER']
+
+  if (!user || !role.includes(user.roleType)) {
     throw new UnauthorizedError(
       'Você não tem autorização para executar esta ação.'
     )
