@@ -1,8 +1,16 @@
 import { prisma } from '@/database/prismaClient'
 
 export class ListAllUsersUseCase {
-  async execute(limit: number = 4) {
-    
+  async execute(limit: number, offset: number) {
+    const total = await prisma.user.findMany({
+      select: {
+        id: true,
+      },
+    })
+
+    const newLimit = !limit || isNaN(limit) ? total.length : limit
+    const newOffset = !offset || isNaN(offset) ? 0 : offset
+
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -11,8 +19,10 @@ export class ListAllUsersUseCase {
         roleType: true,
         lastAcess: true,
       },
-      take: (Number.isInteger(limit) ? limit : 2)
+      take: Number(newLimit),
+      skip: Number(newOffset),
     })
-    return users
+
+    return { users, total: total.length ?? 0 }
   }
 }
