@@ -1,6 +1,7 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CreateCustomerController } from '@/modules/customers/useCases/createCustomer/CreateCustomerController'
+import { CustomerValidatorRegister } from '@/validators/customers/CustomerValidatorRegister'
 import { Router } from 'express'
 
 const customerRoutes = Router()
@@ -8,9 +9,10 @@ const customerRoutes = Router()
 const createCustomerController = new CreateCustomerController()
 //create complete customer
 customerRoutes.post(
-  '/customer',
+  '/customer/:id',
   authUserToken,
   userAndAdminUserToken,
+  CustomerValidatorRegister.register,
   createCustomerController.handle
 )
 

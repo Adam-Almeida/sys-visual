@@ -1,11 +1,33 @@
 import { checkSchema } from 'express-validator'
 
-const newLocal = 'S/N'
+function sanitizeValue(value: String) {
+  return value
+    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s]/g, ' ')
+    .toUpperCase()
+    .trim()
+}
+
+function sanitizeDocumentCepAndPhones(value: String) {
+  return value.replace(/[^0-9]/gi, '')
+}
+
+function sanitizeAddresNumber(value: String) {
+  return value.replace(/[^a-zA-Z0-9\s]/g, ' ').trim()
+}
+
+function sanitizeAddres(value: String) {
+  return value.replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s]/g, ' ').trim()
+}
+
 export const CustomerValidatorRegister = {
   register: checkSchema({
     name: {
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeValue(value)
+        },
+      },
       trim: true,
-      escape: true,
       isLength: {
         options: { min: 2, max: 255 },
       },
@@ -13,7 +35,11 @@ export const CustomerValidatorRegister = {
     },
     document: {
       trim: true,
-      escape: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeDocumentCepAndPhones(value)
+        },
+      },
       isLength: {
         options: { min: 10, max: 18 },
       },
@@ -32,11 +58,17 @@ export const CustomerValidatorRegister = {
     type: {
       isIn: {
         options: [['NATURAL_PERSON', 'LEGAL_PERSON']],
-        errorMessage: 'Informe um tipo válido.',
+        errorMessage: 'Informe um tipo empresarial válido.',
       },
     },
     phone: {
       optional: true,
+      trim: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeDocumentCepAndPhones(value)
+        },
+      },
       isLength: {
         options: {
           max: 12,
@@ -47,6 +79,12 @@ export const CustomerValidatorRegister = {
     },
     whats: {
       notEmpty: true,
+      trim: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeDocumentCepAndPhones(value)
+        },
+      },
       isLength: {
         options: {
           max: 13,
@@ -57,17 +95,27 @@ export const CustomerValidatorRegister = {
     },
     cep: {
       notEmpty: true,
+      trim: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeDocumentCepAndPhones(value)
+        },
+      },
       isLength: {
         options: {
           max: 10,
-          min: 9,
+          min: 5,
         },
         errorMessage: 'O CEP informado não parece válido',
       },
     },
     street: {
       trim: true,
-      escape: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeAddres(value)
+        },
+      },
       isLength: {
         options: { min: 5, max: 255 },
       },
@@ -76,7 +124,11 @@ export const CustomerValidatorRegister = {
     number: {
       optional: true,
       trim: true,
-      escape: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeAddresNumber(value)
+        },
+      },
       isLength: {
         options: { min: 1, max: 10 },
       },
@@ -84,7 +136,11 @@ export const CustomerValidatorRegister = {
     },
     neighborhood: {
       trim: true,
-      escape: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeAddres(value)
+        },
+      },
       isLength: {
         options: { min: 2, max: 45 },
       },
@@ -92,7 +148,11 @@ export const CustomerValidatorRegister = {
     },
     city: {
       trim: true,
-      escape: true,
+      customSanitizer: {
+        options: (value) => {
+          return sanitizeAddres(value)
+        },
+      },
       isLength: {
         options: { min: 2, max: 45 },
       },
@@ -140,10 +200,6 @@ export const CustomerValidatorRegister = {
         ],
         errorMessage: 'A sigla do estado é inválida.',
       },
-    },
-    user_id: {
-      isUUID: true,
-      notEmpty: true,
     },
   }),
 }
