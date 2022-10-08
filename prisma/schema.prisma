@@ -16,7 +16,10 @@ model User {
   password    String      
   email       String      @unique
   lastAcess   DateTime    @default(now())
-  roleType    Role        
+  roleType    Role
+
+  customer    Customer?
+
   @@map("user")
 }
 
@@ -24,4 +27,48 @@ enum Role {
   USER              //FUNCIONÁRIOS DE PRODUÇÃO
   ADMIN              //SUPER ADMIN
   CLIENT             //CLIENTES
+}
+
+model Customer{
+  id          String @id    @default(uuid())
+  name        String
+  document    String @unique
+  email       String
+  type        incType
+  phone       String?
+  whats       String
+  status      Boolean  @default(true)
+
+  user_id     String   @unique
+  user        User     @relation(fields: [user_id], references: [id]) 
+
+  address     Address?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("customer")
+}
+
+enum incType {
+  NATURAL_PERSON
+  LEGAL_PERSON
+}
+
+model Address{
+  id            String @id @default(uuid())
+  cep           Int
+  street        String
+  number        String
+  neighborhood  String
+  state         String
+  uf            String
+
+  id_customer   String    @unique
+  customer      Customer  @relation(fields: [id_customer], references: [id])
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("address")
 }
