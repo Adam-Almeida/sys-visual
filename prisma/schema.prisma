@@ -62,7 +62,6 @@ model Address{
   number        String
   city          String
   neighborhood  String
-  state         String
   uf            String
 
   id_customer   String    @unique

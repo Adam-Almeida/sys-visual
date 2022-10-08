@@ -1,27 +1,32 @@
-import { Router } from "express";
+import { authUserToken } from '@/middlewares/authUserToken'
+import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
+import { CreateCustomerController } from '@/modules/customers/useCases/createCustomer/CreateCustomerController'
+import { Router } from 'express'
 
 const customerRoutes = Router()
 
+const createCustomerController = new CreateCustomerController()
+//create complete customer
+customerRoutes.post(
+  '/customer',
+  authUserToken,
+  userAndAdminUserToken,
+  createCustomerController.handle
+)
+
 //list all customers
-customerRoutes.get('/customers', (req, res)=>{
-    res.json({hellow: true})
+customerRoutes.get('/customers', (req, res) => {
+  res.json({ hellow: true })
 })
 
 //get customer by id
-customerRoutes.get('/customer/:id', (req, res)=>{
-    res.json({hellow: true})
+customerRoutes.get('/customer/:id', (req, res) => {
+  res.json({ hellow: true })
 })
 
 //get customer by user
-customerRoutes.get('/customer/:user_id', (req, res)=>{
-    res.json({hellow: true})
+customerRoutes.get('/customer/:user_id', (req, res) => {
+  res.json({ hellow: true })
 })
-
-//create complete customer 
-customerRoutes.post('/customer', (req, res)=>{
-    res.json({hellow: true})
-})
-
-
 
 export default customerRoutes
