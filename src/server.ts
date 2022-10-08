@@ -7,6 +7,7 @@ import { authUserToken } from './middlewares/authUserToken'
 import { adminUserToken } from './middlewares/adminUserToken'
 import { UserValidatorRegister } from './validators/users/UserValidatorRegister'
 import { matchedData, validationResult } from 'express-validator'
+import customerRoutes from './routes/customerRoutes'
 
 const port = process.env.PORT || 3333
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 
 app.use(authenticateRoutes)
 app.use(userRoutes)
+app.use(customerRoutes)
 
 app.get('/ping', (req: Request, res: Response) => {
   const { user_id } = req

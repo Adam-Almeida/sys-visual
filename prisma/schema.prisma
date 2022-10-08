@@ -60,6 +60,7 @@ model Address{
   cep           Int
   street        String
   number        String
+  city          String
   neighborhood  String
   state         String
   uf            String
