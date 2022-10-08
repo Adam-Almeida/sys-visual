@@ -5,7 +5,7 @@ import userRoutes from '@/routes/userRoutes'
 import authenticateRoutes from './routes/authenticateRoutes'
 import { authUserToken } from './middlewares/authUserToken'
 import { adminUserToken } from './middlewares/adminUserToken'
-import { UserValidatorRegister } from './validators/UserValidatorRegister'
+import { UserValidatorRegister } from './validators/users/UserValidatorRegister'
 import { matchedData, validationResult } from 'express-validator'
 
 const port = process.env.PORT || 3333
