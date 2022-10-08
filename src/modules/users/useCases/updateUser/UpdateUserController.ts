@@ -1,4 +1,5 @@
 import { BadRequestError } from '@/errors/ApiErrors'
+import uuidValidate from '@/utils/uuidValidate'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { UpdateUserUseCase } from './UpdateUserUseCase'
@@ -11,6 +12,11 @@ export class UpdateUserController {
     }
     const data = matchedData(req)
     const { id } = req.params
+    const uuidValid = await uuidValidate(id)
+
+    if (!uuidValid) {
+      throw new BadRequestError('O id informado não parece válido.')
+    }
 
     const { username, email, password, confirmPassword } = data
 
@@ -30,7 +36,7 @@ export class UpdateUserController {
     })
 
     return res
-      .status(201)
+      .status(200)
       .json({ message: 'Cadastro atualizado com sucesso', data: result })
   }
 }

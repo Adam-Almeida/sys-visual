@@ -1,9 +1,9 @@
 import { BadRequestError } from '@/errors/ApiErrors'
 import uuidValidate from '@/utils/uuidValidate'
 import { Request, Response } from 'express'
-import { getUserBiIdUseCase } from './GetUserByIdUseCase'
+import { DeleteUserUseCase } from './DeleteUserUseCase'
 
-export class GetUserByIdController {
+export class DeleteUserController {
   async handle(req: Request, res: Response) {
     const { id } = req.params
     const uuidValid = await uuidValidate(id)
@@ -11,13 +11,10 @@ export class GetUserByIdController {
     if (!uuidValid) {
       throw new BadRequestError('O id informado não parece válido.')
     }
-    const getUserByIdUseCase = new getUserBiIdUseCase()
-    const user = await getUserByIdUseCase.execute(id)
 
-    if (!user) {
-      throw new BadRequestError('Usuário não encontrado para este id.')
-    }
+    const deleteUserUseCase = new DeleteUserUseCase()
+    await deleteUserUseCase.execute(id)
 
-    res.json(user)
+    return res.status(200).json({ message: 'Usuário removido com sucesso' })
   }
 }

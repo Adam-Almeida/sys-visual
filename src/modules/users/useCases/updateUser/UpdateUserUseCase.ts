@@ -2,6 +2,7 @@ import { prisma } from '@/database/prismaClient'
 import { BadRequestError, NotFoundError } from '@/errors/ApiErrors'
 import { hash } from 'bcrypt'
 
+
 interface IRequestProps {
   username?: string
   email?: string
