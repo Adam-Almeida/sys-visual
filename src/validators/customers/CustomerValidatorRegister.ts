@@ -1,30 +1,14 @@
+import { sanitizeValidate } from '@/utils/sanitizeValidate'
 import { checkSchema } from 'express-validator'
 
-function sanitizeValue(value: String) {
-  return value
-    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s]/g, ' ')
-    .toUpperCase()
-    .trim()
-}
-
-function sanitizeDocumentCepAndPhones(value: String) {
-  return value.replace(/[^0-9]/gi, '')
-}
-
-function sanitizeAddresNumber(value: String) {
-  return value.replace(/[^a-zA-Z0-9\s]/g, ' ').trim()
-}
-
-function sanitizeAddres(value: String) {
-  return value.replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s]/g, ' ').trim()
-}
+const sanitize = new sanitizeValidate()
 
 export const CustomerValidatorRegister = {
   register: checkSchema({
     name: {
       customSanitizer: {
         options: (value) => {
-          return sanitizeValue(value)
+          return sanitize.sanitizeStringToUppercase(value)
         },
       },
       trim: true,
@@ -37,7 +21,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeDocumentCepAndPhones(value)
+          return sanitize.sanitizeDocumentCepAndPhones(value)
         },
       },
       isLength: {
@@ -66,7 +50,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeDocumentCepAndPhones(value)
+          return sanitize.sanitizeDocumentCepAndPhones(value)
         },
       },
       isLength: {
@@ -82,7 +66,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeDocumentCepAndPhones(value)
+          return sanitize.sanitizeDocumentCepAndPhones(value)
         },
       },
       isLength: {
@@ -98,7 +82,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeDocumentCepAndPhones(value)
+          return sanitize.sanitizeDocumentCepAndPhones(value)
         },
       },
       isLength: {
@@ -113,7 +97,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeAddres(value)
+          return sanitize.sanitizeAddres(value)
         },
       },
       isLength: {
@@ -126,7 +110,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeAddresNumber(value)
+          return sanitize.sanitizeAddresNumber(value)
         },
       },
       isLength: {
@@ -138,7 +122,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeAddres(value)
+          return sanitize.sanitizeAddres(value)
         },
       },
       isLength: {
@@ -150,7 +134,7 @@ export const CustomerValidatorRegister = {
       trim: true,
       customSanitizer: {
         options: (value) => {
-          return sanitizeAddres(value)
+          return sanitize.sanitizeAddres(value)
         },
       },
       isLength: {
