@@ -1,12 +1,15 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CreateCustomerController } from '@/modules/customers/useCases/createCustomer/CreateCustomerController'
+import { ListAllCustomerController } from '@/modules/customers/useCases/listAllCustomers/ListAllCustomersController'
 import { CustomerValidatorRegister } from '@/validators/customers/CustomerValidatorRegister'
 import { Router } from 'express'
 
 const customerRoutes = Router()
 
 const createCustomerController = new CreateCustomerController()
+const listAllCustomersController = new ListAllCustomerController()
+
 //create complete customer
 customerRoutes.post(
   '/customer/:id',
@@ -17,9 +20,12 @@ customerRoutes.post(
 )
 
 //list all customers
-customerRoutes.get('/customers', (req, res) => {
-  res.json({ hellow: true })
-})
+customerRoutes.get(
+  '/customers',
+  authUserToken,
+  userAndAdminUserToken,
+  listAllCustomersController.handle
+)
 
 //get customer by id
 customerRoutes.get('/customer/:id', (req, res) => {
