@@ -5,7 +5,10 @@ import { DeleteCustomerController } from '@/modules/customers/useCases/deleteCus
 import { GetCustomerByIdController } from '@/modules/customers/useCases/getCustomerById/GetCustomerByIdController'
 import { GetCustomerByUserIdController } from '@/modules/customers/useCases/getCustomerByUserId/GetCustomerByUserIdController'
 import { ListAllCustomerController } from '@/modules/customers/useCases/listAllCustomers/ListAllCustomersController'
+import { UpdateCustomerController } from '@/modules/customers/useCases/updateCustomer/UpdateCustomerController'
 import { CustomerValidatorRegister } from '@/validators/customers/CustomerValidatorRegister'
+import { CustomerValidatorUpdate } from '@/validators/customers/CustomerValidatorUpdate'
+
 import { Router } from 'express'
 
 const customerRoutes = Router()
@@ -15,6 +18,7 @@ const listAllCustomersController = new ListAllCustomerController()
 const getCustomerByIdController = new GetCustomerByIdController()
 const getCustomerByUserIdController = new GetCustomerByUserIdController()
 const deleteCustomerController = new DeleteCustomerController()
+const updateCustomerController = new UpdateCustomerController()
 
 //create complete customer
 customerRoutes.post(
@@ -54,6 +58,14 @@ customerRoutes.delete(
   authUserToken,
   userAndAdminUserToken,
   deleteCustomerController.handle
+)
+
+customerRoutes.patch(
+  '/customer/:id',
+  authUserToken,
+  userAndAdminUserToken,
+  CustomerValidatorUpdate.update,
+  updateCustomerController.handle
 )
 
 export default customerRoutes

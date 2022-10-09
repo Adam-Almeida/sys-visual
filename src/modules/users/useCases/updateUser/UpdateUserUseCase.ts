@@ -44,8 +44,6 @@ export class UpdateUserUseCase {
 
     userData.password = newPass
 
-    console.log({ ...userData })
-
     const newUser = await prisma.user.update({
       where: {
         id: id,
