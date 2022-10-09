@@ -6,6 +6,12 @@ export class ApiErrors extends Error {
   }
 }
 
+export class StatusRequestError extends ApiErrors {
+  constructor(message: string, statusCode: number) {
+    super(message, statusCode)
+  }
+}
+
 export class BadRequestError extends ApiErrors {
   constructor(message: string) {
     super(message, 400)
