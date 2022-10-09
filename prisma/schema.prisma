@@ -65,7 +65,7 @@ model Address{
   uf            String
 
   id_customer   String    @unique
-  customer      Customer  @relation(fields: [id_customer], references: [id])
+  customer      Customer  @relation(fields: [id_customer], references: [id], onDelete: Cascade)
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
