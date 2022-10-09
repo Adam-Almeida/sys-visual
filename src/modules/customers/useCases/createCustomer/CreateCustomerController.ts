@@ -52,6 +52,6 @@ export class CreateCustomerController {
 
     return res
       .status(200)
-      .json({ message: 'Ccliente cadastrado com sucesso', data: customer })
+      .json({ message: 'Cliente cadastrado com sucesso', data: customer })
   }
 }

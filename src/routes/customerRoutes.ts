@@ -1,6 +1,7 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CreateCustomerController } from '@/modules/customers/useCases/createCustomer/CreateCustomerController'
+import { DeleteCustomerController } from '@/modules/customers/useCases/deleteCustomer/DeleteCustomerController'
 import { GetCustomerByIdController } from '@/modules/customers/useCases/getCustomerById/GetCustomerByIdController'
 import { GetCustomerByUserIdController } from '@/modules/customers/useCases/getCustomerByUserId/GetCustomerByUserIdController'
 import { ListAllCustomerController } from '@/modules/customers/useCases/listAllCustomers/ListAllCustomersController'
@@ -13,6 +14,7 @@ const createCustomerController = new CreateCustomerController()
 const listAllCustomersController = new ListAllCustomerController()
 const getCustomerByIdController = new GetCustomerByIdController()
 const getCustomerByUserIdController = new GetCustomerByUserIdController()
+const deleteCustomerController = new DeleteCustomerController()
 
 //create complete customer
 customerRoutes.post(
@@ -45,6 +47,13 @@ customerRoutes.get(
   authUserToken,
   userAndAdminUserToken,
   getCustomerByUserIdController.handle
+)
+
+customerRoutes.delete(
+  '/customer',
+  authUserToken,
+  userAndAdminUserToken,
+  deleteCustomerController.handle
 )
 
 export default customerRoutes

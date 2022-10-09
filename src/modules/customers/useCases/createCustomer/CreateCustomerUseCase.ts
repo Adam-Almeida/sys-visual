@@ -1,6 +1,5 @@
 import { prisma } from '@/database/prismaClient'
 import { BadRequestError, StatusRequestError } from '@/errors/ApiErrors'
-import { PrismaClientValidationError } from '@prisma/client/runtime'
 import { v4 } from 'uuid'
 
 interface ICreateCustomer {
@@ -44,10 +43,28 @@ export class CreateCustomerUseCase {
       where: {
         id: { equals: user_id },
       },
+      select: {
+        id: true,
+      },
     })
 
     if (!user) {
       throw new BadRequestError('Usuário não encontrado para este id.')
+    }
+
+    const customerByUser = await prisma.customer.findFirst({
+      where: {
+        user_id: {
+          equals: user_id,
+        },
+      },
+      select:{
+        id: true
+      }
+    })
+
+    if (customerByUser) {
+      throw new BadRequestError('Este usuário já pertence a um cliente.')
     }
 
     const customerExists = await prisma.customer.findFirst({

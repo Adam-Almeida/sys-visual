@@ -7,6 +7,9 @@ export class DeleteUserUseCase {
       where: {
         id: { equals: id },
       },
+      select:{
+        id: true
+      }
     })
 
     if (!user) {
