@@ -72,3 +72,30 @@ model Address{
 
   @@map("address")
 }
+
+model FeedstockType {
+id            String @id @default(uuid())
+name          String
+slug          String @unique
+createdAt     DateTime  @default(now())
+updatedAt     DateTime  @updatedAt
+
+@@map("feedstockType")
+}
+
+model Stock {
+id                String @id @default(uuid())
+name              String
+type              String
+qtd               Int
+lose_per_meter    Decimal
+grammage          Int
+base_price        Float
+description       String
+notify_storage    Boolean
+
+createdAt         DateTime  @default(now())
+updatedAt         DateTime  @updatedAt
+
+@@map("stock")
+}
