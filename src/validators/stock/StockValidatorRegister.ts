@@ -3,7 +3,6 @@ import { checkSchema } from 'express-validator'
 export const StockValidatorRegister = {
   register: checkSchema({
     name: {
-      notEmpty: true,
       trim: true,
       escape: true,
       isLength: {
@@ -12,21 +11,18 @@ export const StockValidatorRegister = {
       errorMessage: 'O Nome para o produto precisa ter ao menos 2 caracteres.',
     },
     type: {
+      isUUID: true,
       notEmpty: true,
-      trim: true,
-      escape: true,
-      isLength: {
-        options: { min: 2, max: 255 },
-      },
-      errorMessage: 'O Nome para o produto precisa ter ao menos 2 caracteres.',
+      errorMessage: 'O tipo de insumo informado não é válido.',
     },
     qtd: {
-      notEmpty: true,
       isNumeric: true,
+      notEmpty: true,
       errorMessage: 'A quantidade do produto não é válida.',
     },
     losePerMeter: {
       isNumeric: true,
+      notEmpty: true,
       errorMessage: 'O preço base não parece válido.',
     },
     grammage: {
@@ -37,20 +33,21 @@ export const StockValidatorRegister = {
     basePrice: {
       notEmpty: true,
       isNumeric: true,
-      errorMessage: 'O preço para o produto não é válido.',
+      errorMessage: 'O preço base para o produto não é válido.',
     },
     description: {
-      notEmpty: true,
-      errorMessage: 'O preço para o produto não é válido.',
-    },
-    notifyStorage: {
       notEmpty: true,
       trim: true,
       escape: true,
       isLength: {
         options: { min: 2, max: 255 },
       },
-      errorMessage: 'Preencha a descrição para o estoque.',
+      errorMessage: 'Escreve uma descrição válida.',
+    },
+    notifyStorage: {
+      notEmpty: true,
+      isBoolean: true,
+      errorMessage: 'Erro ao selecionar a notificação.',
     },
   }),
 }

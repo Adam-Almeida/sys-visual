@@ -1,7 +1,10 @@
 import { BadRequestError } from '@/errors/ApiErrors'
+import { slugIFy } from '@/utils/slugIFy'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { CreateStockUseCase } from './CreateStockUseCase'
+
+const slugIFyCreate = new slugIFy().slug
 
 export class CreateStockController {
   async handle(req: Request, res: Response) {
@@ -22,10 +25,13 @@ export class CreateStockController {
       notifyStorage,
     } = data
 
+    const slug = slugIFyCreate(name + '-' + grammage.toString()+'-g')
+
     const createStockUseCase = new CreateStockUseCase()
     const stock = await createStockUseCase.execute({
       name,
       type,
+      slug,
       qtd,
       losePerMeter,
       grammage,
