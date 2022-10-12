@@ -1,12 +1,10 @@
 import { BadRequestError } from '@/errors/ApiErrors'
 import { sanitizeValidate } from '@/utils/sanitizeValidate'
-import { slugIFy } from '@/utils/slugIFy'
 import uuidValidate from '@/utils/uuidValidate'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { UpdateStockUseCase } from './UpdateStockUseCase'
 
-const slugIFyCreate = new slugIFy().slug
 const sanitize = new sanitizeValidate().sanitizeStringToUppercase
 
 export class UpdateStockController {
@@ -23,18 +21,12 @@ export class UpdateStockController {
       throw new BadRequestError('O id informado não parece válido.')
     }
 
-    const data = matchedData(req)
-
-    let slug = ''
-    if (data.name) {
-      slug = slugIFyCreate(data.name + '-' + data.grammage.toString() + '-g')
-    }
-
-    const { name, qtd, grammage, basePrice } = data
+    const { name, qtd, grammage, basePrice } = matchedData(req)
 
     const updateStockUseCase = new UpdateStockUseCase()
-    const result = await updateStockUseCase.execute(id, slug, {
-      name: sanitize(name),
+
+    const result = await updateStockUseCase.execute(id, {
+      name: name ? sanitize(name) : name,
       qtd,
       grammage,
       basePrice,

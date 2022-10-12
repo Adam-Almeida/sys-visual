@@ -14,18 +14,15 @@ export const StockValidatorUpdate = {
     qtd: {
       optional: true,
       isNumeric: true,
-      notEmpty: true,
       errorMessage: 'A quantidade do produto não é válida.',
     },
     grammage: {
       optional: true,
-      notEmpty: true,
       isNumeric: true,
       errorMessage: 'A gramatura do produto não é válida.',
     },
     basePrice: {
       optional: true,
-      notEmpty: true,
       isNumeric: true,
       errorMessage: 'O preço base para o produto não é válido.',
     },

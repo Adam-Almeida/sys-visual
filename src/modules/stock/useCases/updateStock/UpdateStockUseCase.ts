@@ -1,5 +1,8 @@
 import { prisma } from '@/database/prismaClient'
 import { BadRequestError, NotFoundError } from '@/errors/ApiErrors'
+import { slugIFy } from '@/utils/slugIFy'
+
+const slugIFyCreate = new slugIFy().slug
 
 interface IRequest {
   name?: string
@@ -9,11 +12,7 @@ interface IRequest {
 }
 
 export class UpdateStockUseCase {
-  async execute(
-    id: string,
-    slug: string,
-    { name, qtd, grammage, basePrice }: IRequest
-  ) {
+  async execute(id: string, { name, qtd, grammage, basePrice }: IRequest) {
     const stockExists = await prisma.stock.findFirst({
       where: {
         id: {
@@ -22,8 +21,10 @@ export class UpdateStockUseCase {
       },
       select: {
         id: true,
+        name: true,
         slug: true,
         qtd: true,
+        grammage: true,
       },
     })
 
@@ -33,11 +34,25 @@ export class UpdateStockUseCase {
       )
     }
 
-    if (stockExists.slug !== slug) {
+    let newSlug = stockExists.slug
+
+    if (name && grammage) {
+      newSlug = slugIFyCreate(name + '-' + grammage.toString() + '-g')
+    } else if (name) {
+      newSlug = slugIFyCreate(
+        name + '-' + stockExists.grammage.toString() + '-g'
+      )
+    } else if (grammage) {
+      newSlug = slugIFyCreate(
+        stockExists.name + '-' + grammage.toString() + '-g'
+      )
+    }
+
+    if (stockExists.slug !== newSlug) {
       const nameStockExists = await prisma.stock.findFirst({
         where: {
           slug: {
-            equals: slug,
+            equals: newSlug,
           },
         },
         select: {
@@ -52,7 +67,11 @@ export class UpdateStockUseCase {
       }
     }
 
-    const newQtd = stockExists.qtd + Number(qtd)
+    let newQtd = stockExists.qtd
+
+    if (qtd) {
+      newQtd += qtd
+    }
 
     return await prisma.stock.update({
       where: {
@@ -60,9 +79,10 @@ export class UpdateStockUseCase {
       },
       data: {
         name,
-        slug: slug,
-        qtd: newQtd,
+        slug: newSlug,
+        qtd: Number(newQtd),
         grammage: grammage,
+        base_price: basePrice,
       },
     })
   }
