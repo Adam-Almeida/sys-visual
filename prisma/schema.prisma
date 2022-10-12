@@ -89,7 +89,7 @@ name              String
 slug              String @unique
 type              String
 qtd               Int
-lose_per_meter    Decimal
+lose_per_meter    Float
 grammage          Int
 base_price        Float
 description       String
