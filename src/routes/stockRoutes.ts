@@ -1,11 +1,19 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
+import { CreateStockController } from '@/modules/stock/useCases/CreateStockController'
 import { Router } from 'express'
 
 const stockRoutes = Router()
 
+const createStockController = new CreateStockController()
+
 // create stock route
-stockRoutes.post('/stock', authUserToken, userAndAdminUserToken)
+stockRoutes.post(
+  '/stock',
+  authUserToken,
+  userAndAdminUserToken,
+  createStockController.handle
+)
 
 // get all stock route
 
