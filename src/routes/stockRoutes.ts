@@ -1,6 +1,7 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CreateStockController } from '@/modules/stock/useCases/CreateStockController'
+import { StockValidatorRegister } from '@/validators/stock/StockValidatorRegister'
 import { Router } from 'express'
 
 const stockRoutes = Router()
@@ -12,6 +13,7 @@ stockRoutes.post(
   '/stock',
   authUserToken,
   userAndAdminUserToken,
+  StockValidatorRegister.register,
   createStockController.handle
 )
 
