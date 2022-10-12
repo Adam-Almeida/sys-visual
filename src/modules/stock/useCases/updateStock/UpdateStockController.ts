@@ -1,4 +1,5 @@
 import { BadRequestError } from '@/errors/ApiErrors'
+import { sanitizeValidate } from '@/utils/sanitizeValidate'
 import { slugIFy } from '@/utils/slugIFy'
 import uuidValidate from '@/utils/uuidValidate'
 import { Request, Response } from 'express'
@@ -6,6 +7,7 @@ import { matchedData, validationResult } from 'express-validator'
 import { UpdateStockUseCase } from './UpdateStockUseCase'
 
 const slugIFyCreate = new slugIFy().slug
+const sanitize = new sanitizeValidate().sanitizeStringToUppercase
 
 export class UpdateStockController {
   async handle(req: Request, res: Response) {
@@ -28,8 +30,15 @@ export class UpdateStockController {
       slug = slugIFyCreate(data.name + '-' + data.grammage.toString() + '-g')
     }
 
+    const { name, qtd, grammage, basePrice } = data
+
     const updateStockUseCase = new UpdateStockUseCase()
-    const result = await updateStockUseCase.execute(id, slug, {...data})
+    const result = await updateStockUseCase.execute(id, slug, {
+      name: sanitize(name),
+      qtd,
+      grammage,
+      basePrice,
+    })
 
     return res
       .status(200)

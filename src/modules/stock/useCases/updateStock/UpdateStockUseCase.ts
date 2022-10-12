@@ -9,7 +9,11 @@ interface IRequest {
 }
 
 export class UpdateStockUseCase {
-  async execute(id: string, slug: string, { ...stockData }: IRequest) {
+  async execute(
+    id: string,
+    slug: string,
+    { name, qtd, grammage, basePrice }: IRequest
+  ) {
     const stockExists = await prisma.stock.findFirst({
       where: {
         id: {
@@ -48,8 +52,18 @@ export class UpdateStockUseCase {
       }
     }
 
-    const newQtd = stockExists.qtd + Number(stockData.qtd)
+    const newQtd = stockExists.qtd + Number(qtd)
 
-    console.log(newQtd)
+    return await prisma.stock.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        slug: slug,
+        qtd: newQtd,
+        grammage: grammage,
+      },
+    })
   }
 }
