@@ -13,7 +13,9 @@ export class ListAllStockUseCase {
 
     const stock = await prisma.stock.findMany({
       select: {
+        id: true,
         name: true,
+        qtd: true,
         type: true,
         lose_per_meter: true,
         grammage: true,

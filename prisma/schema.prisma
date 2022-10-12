@@ -88,7 +88,7 @@ id                String @id @default(uuid())
 name              String
 slug              String @unique
 type              String
-qtd               Int
+qtd               Float
 lose_per_meter    Float
 grammage          Int
 base_price        Float

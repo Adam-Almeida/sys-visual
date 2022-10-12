@@ -1,10 +1,13 @@
 import { BadRequestError } from '@/errors/ApiErrors'
+import { sanitizeValidate } from '@/utils/sanitizeValidate'
 import { slugIFy } from '@/utils/slugIFy'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { CreateStockUseCase } from './CreateStockUseCase'
 
 const slugIFyCreate = new slugIFy().slug
+const sanitize = new sanitizeValidate().sanitizeStringToUppercase
+const sanitizeNormalCase = new sanitizeValidate().sanitizeStringNormalCase
 
 export class CreateStockController {
   async handle(req: Request, res: Response) {
@@ -25,18 +28,18 @@ export class CreateStockController {
       notifyStorage,
     } = data
 
-    const slug = slugIFyCreate(name + '-' + grammage.toString()+'-g')
+    const slug = slugIFyCreate(name + '-' + grammage.toString() + '-g')
 
     const createStockUseCase = new CreateStockUseCase()
     const stock = await createStockUseCase.execute({
-      name,
+      name: sanitize(name),
       type,
       slug,
       qtd,
       losePerMeter,
       grammage,
       basePrice,
-      description,
+      description: sanitizeNormalCase(description),
       notifyStorage,
     })
 

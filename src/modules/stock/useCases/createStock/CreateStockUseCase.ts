@@ -62,7 +62,7 @@ export class CreateStockUseCase {
         name,
         slug,
         type,
-        qtd: Number(qtd),
+        qtd: Number(qtd) ?? 0.0,
         lose_per_meter: Number(losePerMeter) ?? 0,
         grammage: Number(grammage) ?? 0,
         base_price: Number(basePrice) ?? 0.0,

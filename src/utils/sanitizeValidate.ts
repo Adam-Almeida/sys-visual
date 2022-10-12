@@ -6,6 +6,12 @@ export class sanitizeValidate{
           .trim()
       }
 
+      sanitizeStringNormalCase(value: String) {
+        return value
+          .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s]/g, ' ')
+          .trim()
+      }
+
       sanitizeDocumentCepAndPhones(value: String) {
         return value.replace(/[^0-9]/gi, '')
       }
