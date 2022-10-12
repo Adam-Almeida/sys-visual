@@ -3,12 +3,9 @@ import 'express-async-errors'
 import { ErrorsCaptureMiddleware } from './middlewares/errorsCaptureMiddleware'
 import userRoutes from '@/routes/userRoutes'
 import authenticateRoutes from './routes/authenticateRoutes'
-import { authUserToken } from './middlewares/authUserToken'
-import { adminUserToken } from './middlewares/adminUserToken'
-import { UserValidatorRegister } from './validators/users/UserValidatorRegister'
-import { matchedData, validationResult } from 'express-validator'
 import customerRoutes from './routes/customerRoutes'
 import feedstockTypeRoutes from './routes/feedstockTypeRoutes'
+import stockRoutes from './routes/stockRoutes'
 
 const port = process.env.PORT || 3333
 const app = express()
@@ -19,6 +16,7 @@ app.use(authenticateRoutes)
 app.use(userRoutes)
 app.use(customerRoutes)
 app.use(feedstockTypeRoutes)
+app.use(stockRoutes)
 
 app.get('/ping', (req: Request, res: Response) => {
   const { user_id } = req
