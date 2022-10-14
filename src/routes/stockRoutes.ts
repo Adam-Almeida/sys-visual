@@ -1,6 +1,7 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CreateStockController } from '@/modules/stock/useCases/createStock/CreateStockController'
+import { DeleteStockController } from '@/modules/stock/useCases/deleteStock/DeleteStockController'
 import { ListAllStockController } from '@/modules/stock/useCases/listAllStock/ListAllStockController'
 import { UpdateStockController } from '@/modules/stock/useCases/updateStock/UpdateStockController'
 import { StockValidatorRegister } from '@/validators/stock/StockValidatorRegister'
@@ -13,6 +14,7 @@ const stockRoutes = Router()
 const createStockController = new CreateStockController()
 const listAllStockController = new ListAllStockController()
 const updateStockController = new UpdateStockController()
+const deleteStockController = new DeleteStockController()
 
 // create stock route
 stockRoutes.post(
@@ -41,5 +43,12 @@ stockRoutes.patch(
 )
 
 // delete stock route
+
+stockRoutes.delete(
+  '/stock',
+  authUserToken,
+  userAndAdminUserToken,
+  deleteStockController.handle
+)
 
 export default stockRoutes
