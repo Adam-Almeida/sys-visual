@@ -6,6 +6,7 @@ import authenticateRoutes from './routes/authenticateRoutes'
 import customerRoutes from './routes/customerRoutes'
 import feedstockTypeRoutes from './routes/feedstockTypeRoutes'
 import stockRoutes from './routes/stockRoutes'
+import invoiceRoutes from './routes/invoiceRoutes'
 
 const port = process.env.PORT || 3333
 const app = express()
@@ -17,6 +18,7 @@ app.use(userRoutes)
 app.use(customerRoutes)
 app.use(feedstockTypeRoutes)
 app.use(stockRoutes)
+app.use(invoiceRoutes)
 
 app.get('/ping', (req: Request, res: Response) => {
   const { user_id } = req

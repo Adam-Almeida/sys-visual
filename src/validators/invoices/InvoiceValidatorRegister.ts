@@ -61,5 +61,11 @@ export const InvoiceValidatorRegister = {
       isNumeric: true,
       errorMessage: 'O valor informado para o sinal não parece válido',
     },
+    paymentType: {
+      isIn: {
+        options: [['WITHDRAWAL', 'INCASH', 'PIX', 'CREDIT', 'DEBIT']],
+        errorMessage: 'A forma de pagamento é inválida',
+      },
+    },
   }),
 }
