@@ -1,9 +1,9 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
-import { CreateStockController } from '@/modules/stock/useCases/createStock/CreateStockController'
-import { DeleteStockController } from '@/modules/stock/useCases/deleteStock/DeleteStockController'
-import { ListAllStockController } from '@/modules/stock/useCases/listAllStock/ListAllStockController'
-import { UpdateStockController } from '@/modules/stock/useCases/updateStock/UpdateStockController'
+import { CreateStockController } from '@/modules/stock/createStock/useCases/CreateStockController'
+import { DeleteStockController } from '@/modules/stock/deleteStock/useCases/DeleteStockController'
+import { ListAllStockController } from '@/modules/stock/listAllStock/useCases/ListAllStockController'
+import { UpdateStockController } from '@/modules/stock/updateStock/useCases/UpdateStockController'
 import { StockValidatorRegister } from '@/validators/stock/StockValidatorRegister'
 import { StockValidatorUpdate } from '@/validators/stock/StockValidatorUpdate'
 
