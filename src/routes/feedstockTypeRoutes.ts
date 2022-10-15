@@ -1,8 +1,8 @@
 import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
-import { CreateFeedstockTypeController } from '@/modules/feedstockType/useCases/createFeedstockType/CreateFeedstockTypeController'
-import { DeleteFeedstockTypeController } from '@/modules/feedstockType/useCases/deleteFeedstockType/DeleteFeedstockTypeController'
-import { ListAllFeedstockTypeController } from '@/modules/feedstockType/useCases/listAllFeedstocktype/ListAllFeedstockTypeController'
+import { CreateFeedstockTypeController } from '@/modules/feedstockType/createFeedstockType/useCases/CreateFeedstockTypeController'
+import { DeleteFeedstockTypeController } from '@/modules/feedstockType/deleteFeedstockType/useCases/DeleteFeedstockTypeController'
+import { ListAllFeedstockTypeController } from '@/modules/feedstockType/listAllFeedstocktype/useCases/ListAllFeedstockTypeController'
 import { Router } from 'express'
 
 const createFeedstockTypeController = new CreateFeedstockTypeController()
