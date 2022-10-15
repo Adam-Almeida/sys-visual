@@ -1,5 +1,6 @@
 import { BadRequestError } from '@/errors/ApiErrors'
 import { GetCustomerByIdUseCase } from '@/modules/customers/getCustomerById/useCases/GetCustomerByIdUseCase'
+import { GetStockByIdUseCase } from '@/modules/stock/getStockById/GetStockByIdUseCase'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 
@@ -9,13 +10,22 @@ export class CreateInvoiceController {
     if (!errors.isEmpty()) {
       throw new BadRequestError(errors.array()[0].msg)
     }
-    const { customerId } = matchedData(req)
+    const { customerId, stockMediaId } = matchedData(req)
 
     const getCostumerByIdUseCase = new GetCustomerByIdUseCase()
     const costumerExists = await getCostumerByIdUseCase.execute(customerId)
 
-    if(costumerExists === null){
+    if (costumerExists === null) {
       throw new BadRequestError('O cliente não foi localizado para este id.')
+    }
+
+    const getStockByIdUseCase = new GetStockByIdUseCase()
+    const stockExists = await getStockByIdUseCase.execute(stockMediaId)
+
+    if (stockExists === null) {
+      throw new BadRequestError(
+        'O item no estoque não foi localizado para este id.'
+      )
     }
 
     // verificar o stock de midia pelo id
