@@ -19,7 +19,7 @@ export class UpdateCustomerController {
     }
 
     const updateCustomerUseCase = new UpdateCustomerUseCase()
-    const result = await updateCustomerUseCase.execute(id, {...data})
+    const result = await updateCustomerUseCase.execute(id, { ...data })
 
     return res
       .status(200)

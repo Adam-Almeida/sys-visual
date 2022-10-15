@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { CreateCustomerUseCase } from './CreateCustomerUseCase'
 
+
 export class CreateCustomerController {
   async handle(req: Request, res: Response) {
     const errors = validationResult(req)
