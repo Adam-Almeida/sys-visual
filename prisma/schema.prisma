@@ -43,6 +43,7 @@ model Customer{
   user        User     @relation(fields: [user_id], references: [id]) 
 
   address     Address?
+  invoice     Invoice[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -95,8 +96,36 @@ base_price        Float
 description       String
 notify_storage    Boolean
 
+invoice           Invoice[]
+
 createdAt         DateTime  @default(now())
 updatedAt         DateTime  @updatedAt
 
 @@map("stock")
 }
+
+model Invoice{
+  id                String @id @default(uuid())
+  customer_name     String
+  stock_media_name  String
+  qtd               Int
+  comp              Float
+  alt               Float
+  price             Float
+  file              String
+  payment_signal    Float
+  payment_type      String
+  total_value       Float
+  total_meters      Float
+
+  id_stock_media    String    @unique
+  stock             Stock      @relation(fields: [id_stock_media], references: [id])
+
+  id_customer       String    @unique
+  customer          Customer  @relation(fields: [id_customer], references: [id])
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+@@map("invoice")
+}
+
