@@ -106,6 +106,7 @@ updatedAt         DateTime  @updatedAt
 
 model Invoice{
   id                String @id @default(uuid())
+  status            InvoiceStatus @default(NEW)
   customer_name     String
   stock_media_name  String
   qtd               Int
@@ -127,5 +128,13 @@ model Invoice{
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 @@map("invoice")
+}
+
+enum InvoiceStatus {
+  PRODUCTION
+  AVAILABLE
+  NEW
+  URGENT
+  FINISHED
 }
 
