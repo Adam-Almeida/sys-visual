@@ -15,6 +15,8 @@ export class CanceledInvoiceController {
     const canceledInvoiceUseCase = new CanceledInvoiceUseCase()
     await canceledInvoiceUseCase.execute(id)
 
+    
+
     return res
       .status(200)
       .json({ message: 'O pedido foi cancelado com sucesso.' })

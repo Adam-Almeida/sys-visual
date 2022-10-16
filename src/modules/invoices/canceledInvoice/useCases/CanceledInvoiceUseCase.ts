@@ -28,11 +28,36 @@ export class CanceledInvoiceUseCase {
       },
       select: {
         id: true,
+        id_stock_media: true,
+        total_meters: true,
       },
     })
 
     if (!invoiceExists) {
       throw new BadRequestError('O pedido informado não pode ser cancelado.')
+    }
+
+    // retornar os metros para o estoque
+    const stockExists = await prisma.stock.findFirst({
+      where: {
+        id: {
+          equals: invoiceExists.id_stock_media,
+        },
+      },
+      select: {
+        lose_per_meter: true,
+      },
+    })
+
+    if (stockExists) {
+      await prisma.stock.update({
+        where: {
+          id: invoiceExists.id_stock_media,
+        },
+        data: {
+          qtd: stockExists.lose_per_meter * invoiceExists.total_meters,
+        },
+      })
     }
 
     const result = await prisma.invoice.update({
