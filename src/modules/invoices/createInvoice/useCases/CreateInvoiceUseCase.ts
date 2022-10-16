@@ -23,6 +23,7 @@ type InvoiceStatus = {
   NEW: string
   URGENT: string
   FINISHED: string
+  CANCELED: string
 }
 
 export class CreateInvoiceUseCase {
