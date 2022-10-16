@@ -119,10 +119,10 @@ model Invoice{
   total_value       Float
   total_meters      Float
 
-  id_stock_media    String    @unique
+  id_stock_media    String     
   stock             Stock      @relation(fields: [id_stock_media], references: [id])
 
-  id_customer       String    @unique
+  id_customer       String    
   customer          Customer  @relation(fields: [id_customer], references: [id])
 
   createdAt         DateTime  @default(now())

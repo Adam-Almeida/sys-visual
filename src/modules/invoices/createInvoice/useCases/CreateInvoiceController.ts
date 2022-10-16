@@ -4,6 +4,7 @@ import { CalcStockUseCase } from '@/modules/stock/calcStock/useCases/CalcStockUs
 import { GetStockByIdUseCase } from '@/modules/stock/getStockById/GetStockByIdUseCase'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
+import { CreateInvoiceUseCase } from './CreateInvoiceUseCase'
 
 export class CreateInvoiceController {
   async handle(req: Request, res: Response) {
@@ -11,7 +12,18 @@ export class CreateInvoiceController {
     if (!errors.isEmpty()) {
       throw new BadRequestError(errors.array()[0].msg)
     }
-    const { customerId, stockMediaId, comp, alt, qtd, price } = matchedData(req)
+    const {
+      status,
+      customerId,
+      stockMediaId,
+      comp,
+      alt,
+      qtd,
+      price,
+      file,
+      paymentSignal,
+      paymentType,
+    } = matchedData(req)
 
     const getCostumerByIdUseCase = new GetCustomerByIdUseCase()
     const costumerExists = await getCostumerByIdUseCase.execute(customerId)
@@ -30,7 +42,7 @@ export class CreateInvoiceController {
     }
 
     // criar a função de calculo da altura e comprimento
-    const finalMetter = parseFloat(comp) * parseFloat(alt) * qtd
+    const finalMetter = parseFloat(comp) * parseFloat(alt) * parseInt(qtd)
 
     // verificar a metragem no estoque e se é suficiente
     if (
@@ -59,10 +71,26 @@ export class CreateInvoiceController {
       )
     }
 
-    
+    const createInvoiceUseCase = new CreateInvoiceUseCase()
+    const result = await createInvoiceUseCase.execute({
+      status: status,
+      customerName: costumerExists.name,
+      customerId,
+      stockMediaName: stockExists.name,
+      stockMediaId,
+      qtd: Number(qtd),
+      comp: Number(comp),
+      alt: Number(alt),
+      price: Number(price),
+      file,
+      paymentSignal: Number(paymentSignal) ?? Number(0.0),
+      paymentType: paymentType ?? 'PIX',
+      totalValue: Number(finalMetter) * Number(price),
+      totalMeters: Number(finalMetter),
+    })
 
-
-
-    res.json({ true: true })
+    return res
+      .status(200)
+      .json({ message: 'Pedido realizado com sucesso', data: result })
   }
 }

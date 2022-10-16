@@ -45,6 +45,6 @@ export class CreateStockController {
 
     return res
       .status(200)
-      .json({ message: 'Cliente cadastrado com sucesso', data: stock })
+      .json({ message: 'O item no estoque foi cadastrado com sucesso', data: stock })
   }
 }
