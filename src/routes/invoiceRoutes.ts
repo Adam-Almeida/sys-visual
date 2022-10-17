@@ -2,7 +2,8 @@ import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CanceledInvoiceController } from '@/modules/invoices/canceledInvoice/useCases/CanceledInvoiceController'
 import { CreateInvoiceController } from '@/modules/invoices/createInvoice/useCases/CreateInvoiceController'
-import { ListInvoiceBYStatusController } from '@/modules/invoices/listInvoiceByStatus/ListInvoiceByStatusController'
+import { ListInvoiceBYStatusController } from '@/modules/invoices/listInvoiceByStatus/useCases/ListInvoiceByStatusController'
+import { UpdateStatusInvoiceController } from '@/modules/invoices/updateStatusInvoice/useCases/UpdateStatusInvoiceController'
 import { InvoiceValidatorRegister } from '@/validators/invoices/InvoiceValidatorRegister'
 import { Router } from 'express'
 
@@ -11,6 +12,7 @@ const invoiceRoutes = Router()
 const createInvoiceController = new CreateInvoiceController()
 const canceledInvoiceController = new CanceledInvoiceController()
 const listInvoiceByStatusController = new ListInvoiceBYStatusController()
+const updateStatusInvoiceController = new UpdateStatusInvoiceController()
 
 //create invoice
 invoiceRoutes.post(
@@ -22,13 +24,20 @@ invoiceRoutes.post(
 )
 
 //list all invoices
-invoiceRoutes.get('/invoice/:status',
-authUserToken,
-userAndAdminUserToken,
-listInvoiceByStatusController.handle
+invoiceRoutes.get(
+  '/invoice',
+  authUserToken,
+  userAndAdminUserToken,
+  listInvoiceByStatusController.handle
 )
 
-//status invoice
+//alteração de status na invoice
+invoiceRoutes.patch(
+  '/invoice/:id',
+  authUserToken,
+  userAndAdminUserToken,
+  updateStatusInvoiceController.handle
+)
 
 //cancel invoice
 invoiceRoutes.patch(
