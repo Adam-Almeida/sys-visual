@@ -2,6 +2,7 @@ import { authUserToken } from '@/middlewares/authUserToken'
 import { userAndAdminUserToken } from '@/middlewares/userAndAdminUserToken'
 import { CanceledInvoiceController } from '@/modules/invoices/canceledInvoice/useCases/CanceledInvoiceController'
 import { CreateInvoiceController } from '@/modules/invoices/createInvoice/useCases/CreateInvoiceController'
+import { GetInvoiceByIdController } from '@/modules/invoices/getInvoiceById/useCases/GetInvoiceByIdController'
 import { ListInvoiceBYStatusController } from '@/modules/invoices/listInvoiceByStatus/useCases/ListInvoiceByStatusController'
 import { UpdateStatusInvoiceController } from '@/modules/invoices/updateStatusInvoice/useCases/UpdateStatusInvoiceController'
 import { InvoiceValidatorRegister } from '@/validators/invoices/InvoiceValidatorRegister'
@@ -13,6 +14,7 @@ const createInvoiceController = new CreateInvoiceController()
 const canceledInvoiceController = new CanceledInvoiceController()
 const listInvoiceByStatusController = new ListInvoiceBYStatusController()
 const updateStatusInvoiceController = new UpdateStatusInvoiceController()
+const getInvoiceByIdController = new GetInvoiceByIdController()
 
 //create invoice
 invoiceRoutes.post(
@@ -37,6 +39,14 @@ invoiceRoutes.patch(
   authUserToken,
   userAndAdminUserToken,
   updateStatusInvoiceController.handle
+)
+
+//get invoice by id
+invoiceRoutes.get(
+  '/invoice/:id',
+  authUserToken,
+  userAndAdminUserToken,
+  getInvoiceByIdController.handle
 )
 
 //cancel invoice
