@@ -6,13 +6,13 @@ import { GlobalStyle } from "./styles/global";
 export const App = () => {
   return (
     <Router>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<p>Home</p>} />
       </Routes>
       <Routes>
-        <Route path="/login" element={<AuthLogin/>} />
+        <Route path="/login" element={<AuthLogin />} />
       </Routes>
-      <GlobalStyle />
     </Router>
   );
 };

@@ -3,9 +3,10 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
     :root{
         --color-default-theme: #F4CE02;
+        --color-default-theme-hover: #e4c204;
         --color-primary-theme: #51B853;
         --color-secondary-theme: #E1FAEC;
-
+        --gradient-default-theme: linear-gradient(90deg, rgba(255, 201, 0, 1) 0%, rgba(255, 158, 0, 1) 73%);
         --backgroung-default-theme: #F0F2F5;
         --backgorund-default-dark: #41414C;
 
@@ -19,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
         --background-input: #F0F0F5;
 
         --text-input-placeholder: #AEAEAE;
-        --text-input:#8f8f8f;
+        --text-input: #8f8f8f;
 
         --button-success: #36B236;
         --button-success-hover: #3ecd3e;
@@ -33,25 +34,12 @@ export const GlobalStyle = createGlobalStyle`
         --button-info: #4F7EF9;
         --button-info-hover: #6590ff;
 
-        --button-disable:#E1E3E5;
-        --button-disable-hover:#f1f1f1;
+        --button-disable: #E1E3E5;
+        --button-disable-hover: #f1f1f1;
 
-        /* flag */
+        --border-radios-shape: 0.875rem;
+        --transition-button: 0.4s;
 
-        --flag-success-bg: #e8f8e8;
-        --flag-success-text: #36b236;
-
-        --flag-danger-bg: #ffa7a3;
-        --flag-danger-text: #eb3b35;
-
-        --flag-info-bg: #dfe7fe;
-        --flag-info-text: #4f7ef9;
-
-        --flag-warning-bg: #fbeddd;
-        --flag-warning-text: #f2994a;
-
-        --flag-disable-bg: #ececec;
-        --flag-disable-text: #5d5d5d;
     }
     *{
         margin: 0;
@@ -75,7 +63,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     input, textarea, select {
         &:focus {
-            outline: var(--color-default-theme) solid 1px;
+            outline: none;
         }
     }
     body, input, textarea, button {
