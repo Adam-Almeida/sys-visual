@@ -1,7 +1,16 @@
 import { Container, Content, Footer } from "./style";
-import logo from '../../assets/logo.svg'
+import logo from "../../assets/logo.svg";
+import { useState } from "react";
 
 const AuthLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("submit", { email, password });
+  };
+
   return (
     <Content>
       <Container>
@@ -17,7 +26,7 @@ const AuthLogin = () => {
         </div>
         <div className="container_h">
           <div className="content">
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <header>
                 <div className="error">
                   <i className="bi bi-exclamation-circle"></i>
@@ -27,16 +36,30 @@ const AuthLogin = () => {
               </header>
               <span>
                 <i className="bi bi-person-video3"></i>
-                <input type="text" placeholder="DIGITE SEU LOGIN" />
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="DIGITE SEU LOGIN"
+                />
               </span>
               <span>
                 <i className="bi bi-key"></i>
-                <input type="password" placeholder="CHAVE DE ACESSO" />
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="CHAVE DE ACESSO"
+                />
               </span>
               <p>
                 <a href="#">Esqueci minha senha</a>
               </p>
-              <button type="button">
+              <button type="submit">
                 ACESSAR O SISTEMA{" "}
                 <i className="bi bi-arrow-up-right-square"></i>
               </button>

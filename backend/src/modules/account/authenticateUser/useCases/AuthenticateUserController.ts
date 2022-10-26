@@ -8,6 +8,6 @@ export class AuthenticateUserController {
 
     const result = await authenticateUserUseCase.execute({ email, password })
 
-    return res.json(result)
+    return res.json({token: result})
   }
 }
